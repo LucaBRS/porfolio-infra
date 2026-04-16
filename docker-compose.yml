@@ -1,0 +1,23 @@
+services:
+  terraform:
+    image: hashicorp/terraform:latest
+    container_name: terraform
+    working_dir: /infra/terraform
+    volumes:
+      - .:/infra
+    environment:
+      - HCLOUD_TOKEN=${HCLOUD_TOKEN}
+    stdin_open: true
+    tty: true
+
+  ansible:
+    image: cytopia/ansible:latest
+    container_name: ansible
+    working_dir: /infra/ansible
+    volumes:
+      - .:/infra
+      - ~/.ssh:/root/.ssh:ro
+    environment:
+      - ANSIBLE_HOST_KEY_CHECKING=False
+    stdin_open: true
+    tty: true
