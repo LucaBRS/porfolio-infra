@@ -1,0 +1,19 @@
+services:
+  api:
+    # Costruisce l'immagine dal Dockerfile nella stessa cartella
+    build: .
+    
+    # Nome del container
+    container_name: portfolio-api
+    
+    # 127.0.0.1 = esposto solo internamente, Caddy fa da proxy
+    # Non accessibile direttamente da internet
+    ports:
+      - "127.0.0.1:8000:8000"
+    
+    # Riavvia automaticamente se crasha o al reboot del server
+    restart: unless-stopped
+    
+    # Carica le variabili d'ambiente dal file .env (non committato)
+    env_file:
+      - .env

@@ -1,0 +1,48 @@
+# The Caddyfile is an easy way to configure your Caddy web server.
+#
+# Unless the file starts with a global options block, the first
+# uncommented line is always the address of your site.
+#
+# To use your own domain name (with automatic HTTPS), first make
+# sure your domain's A/AAAA DNS records are properly pointed to
+# this machine's public IP, then replace ":80" below with your
+# domain name.
+
+##:80 {
+##	# Set this path to your site's directory.
+##	root * /usr/share/caddy
+
+# Enable the static file server.
+##	file_server
+
+# Another common task is to set up a reverse proxy:
+# reverse_proxy localhost:8080
+
+# Or serve a PHP site through php-fpm:
+# php_fastcgi localhost:9000
+##}
+
+# Refer to the Caddy docs for more information:
+# https://caddyserver.com/docs/caddyfile
+
+
+# Sito principale → verrà puntato a Vercel più avanti
+# Per ora mostra una pagina di test
+lucabarsottini.dev {
+	# Risponde con un messaggio di test
+	# Sostituiremo questo con il proxy verso Vercel allo Step 5
+	respond "Portfolio coming soon!"
+}
+
+# API FastAPI → traffico instradato verso la porta 8000 interna
+api.lucabarsottini.dev {
+	# Tutto il traffico HTTPS viene girato a FastAPI in locale
+	# FastAPI non è esposto direttamente, passa sempre da Caddy
+	reverse_proxy localhost:8000
+}
+
+# Kestra → accessibile solo via Tailscale (lo configuriamo allo Step 9)
+# Per ora lo lasciamo commentato
+# kestra.lucabarsottini.dev {
+#     reverse_proxy localhost:8088
+# }
