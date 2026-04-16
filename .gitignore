@@ -13,3 +13,10 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+
+.ssh/
+tf-ansible.env
+terraform/.terraform/
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+*.tfvars

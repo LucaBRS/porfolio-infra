@@ -1,35 +1,26 @@
 services:
   terraform:
-    # Official Terraform image
     image: hashicorp/terraform:latest
-    container_name: terraform
+    container_name: terraform-portfolio-infra
     working_dir: /infra/terraform
     volumes:
-      # Mounts the whole repo inside the container
-      - .:/infra
-      # Mounts SSH key for Terraform to create it on Hetzner
+      - :/infra
       - ~/.ssh:/root/.ssh:ro
-    # Loads secrets from env file
     env_file:
       - tf-ansible.env
     stdin_open: true
     tty: true
 
   ansible:
-    # Ansible image with common tools included
     image: cytopia/ansible:latest
-    container_name: ansible
+    container_name: ansible-portfolio-infra
     working_dir: /infra/ansible
     volumes:
-      # Mounts the whole repo inside the container
       - .:/infra
-      # Mounts SSH key so Ansible can connect to the VPS
       - ~/.ssh:/root/.ssh:ro
-    # Loads secrets from env file
     env_file:
       - tf-ansible.env
     environment:
-      # Disables SSH host key checking (needed for new servers)
       - ANSIBLE_HOST_KEY_CHECKING=False
     stdin_open: true
     tty: true
