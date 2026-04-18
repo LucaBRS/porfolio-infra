@@ -1,15 +1,11 @@
 # Configurazione Terraform — backend e provider
 terraform {
-  # Salva lo stato su Terraform Cloud
-  cloud {
-    organization = "luca-barsottini"
-    workspaces {
-      name = "portfolio"
-    }
+  backend "gcs" {
+    bucket = "luca-portfolio"
+    prefix = "tfstate"
   }
 
   required_providers {
-    # Provider Hetzner per creare il VPS
     hcloud = {
       source  = "hetznercloud/hcloud"
       version = "~> 1.45"
@@ -22,11 +18,16 @@ provider "hcloud" {
   token = var.hetzner_token
 }
 
-# Carica la chiave SSH pubblica su Hetzner
 resource "hcloud_ssh_key" "portfolio" {
   name       = "portfolio-key"
-  public_key = file("/root/.ssh/id_ed25519_hetzner.pub")
+  public_key = var.ssh_public_key
 }
+
+# # Carica la chiave SSH pubblica su Hetzner
+# resource "hcloud_ssh_key" "portfolio" {
+#   name       = "portfolio-key"
+#   public_key = file("/root/.ssh/id_ed25519_hetzner.pub")
+# }
 
 # Crea il VPS
 resource "hcloud_server" "portfolio" {

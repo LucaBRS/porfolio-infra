@@ -19,3 +19,9 @@ variable "location" {
   type        = string
   default     = "nbg1" # Nuremberg
 }
+
+variable "ssh_public_key" {
+  description = "SSH public key content"
+  type        = string
+  sensitive   = false
+}

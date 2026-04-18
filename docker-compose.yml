@@ -4,10 +4,10 @@ services:
     container_name: terraform-portfolio-infra
     working_dir: /infra/terraform
     volumes:
-      - :/infra
-      - ~/.ssh:/root/.ssh:ro
+      - .:/infra
     env_file:
       - tf-ansible.env
+    entrypoint: tail -f /dev/null
     stdin_open: true
     tty: true
 
@@ -16,8 +16,9 @@ services:
     container_name: ansible-portfolio-infra
     working_dir: /infra/ansible
     volumes:
-      - .:/infra
-      - ~/.ssh:/root/.ssh:ro
+        - .:/infra
+        - ./.ssh/id_ed25519_hetzner:/root/.ssh/id_ed25519_hetzner:ro
+        - ./.ssh/id_ed25519_hetzner.pub:/root/.ssh/id_ed25519_hetzner.pub:ro
     env_file:
       - tf-ansible.env
     environment:
